@@ -1,192 +1,460 @@
-# Livract — MVP & Stage 1 Report Draft
+# Livract — System Architecture
 
-| Field | Details |
+## Overview
+
+Livract is a mobile application that allows users in a local community to share, lend, give, or exchange books.
+
+The MVP uses a **3-tier modular architecture**:
+
+```text
+Mobile App → REST API → Database
+```
+
+The architecture is designed to be simple, scalable, and realistic for a first MVP developed by a small team.
+
+---
+
+## Recommended Architecture
+
+Livract uses:
+
+| Layer | Technology |
 |---|---|
-| **MVP name** | Livract |
-| **Type of application** | Mobile application |
-| **Main purpose** | Livract is a mobile app that helps casual readers and book clubs in one city **discover books, lend books, give books, exchange books, and communicate around local book sharing**. |
+| Front-end | React Native |
+| Back-end | Node.js + Express.js |
+| Database | PostgreSQL |
+| Authentication | Firebase Authentication |
+| Image Storage | Firebase Storage or Cloudinary |
+| API Style | REST API |
+| Version Control | GitHub |
 
-## Target Users
+---
 
-- Casual readers
-- Book clubs
-- Local reading communities
+## High-Level Architecture Diagram
 
-## Core MVP Features
+```mermaid
+flowchart TD
+    User[Mobile User] --> MobileApp[React Native Mobile App]
 
-1. **User accounts and profiles**
-2. **Book listing and discovery system**
-3. **Borrowing/exchange request system with basic messaging**
+    MobileApp -->|Login / Register| FirebaseAuth[Firebase Authentication]
+    FirebaseAuth -->|Returns Auth Token| MobileApp
 
-This matches the idea of an MVP because it keeps only the core features needed to test the product with early users and gather feedback. Atlassian defines an MVP as the most basic version with only the core features needed to satisfy early adopters and validate the idea.
+    MobileApp -->|HTTPS Requests + Auth Token| API[Node.js / Express REST API]
 
-# Stage 1 Report Draft
+    API -->|Verify Token| FirebaseAdmin[Firebase Admin SDK]
+    API -->|Read / Write Data| DB[(PostgreSQL Database)]
 
-## 1. Introduction
+    MobileApp -->|Upload Book Images| Storage[Firebase Storage / Cloudinary]
+    Storage -->|Returns Image URL| MobileApp
 
-This report presents the Stage 1 development process for **Livract**, a mobile application MVP focused on local book sharing. The goal of this stage was to form the team, explore possible project ideas, evaluate their feasibility, select the most relevant MVP concept, and define the project scope, risks, and objectives.
+    MobileApp -->|Send Book Data + Image URL| API
+    API -->|JSON Response| MobileApp
+```
 
-The selected MVP aims to solve the lack of a centralized and easy-to-use platform for sharing, discovering, and discussing books within a local community.
+---
 
-## 2. Team Formation Overview
+## Architecture Type
 
-The team is composed of two members:
+Livract follows a **3-tier modular architecture**.
 
-| Team member | Responsibilities |
+### 1. Presentation Layer
+
+The presentation layer is the mobile application built with **React Native**.
+
+It is responsible for:
+
+- displaying the user interface;
+- handling user interactions;
+- showing books, profiles, requests, and messages;
+- sending requests to the back-end API;
+- storing the authentication token locally.
+
+---
+
+### 2. Application Layer
+
+The application layer is the back-end API built with **Node.js** and **Express.js**.
+
+It is responsible for:
+
+- receiving requests from the mobile app;
+- verifying authentication tokens;
+- applying business rules;
+- managing users, books, requests, and messages;
+- communicating with the database;
+- returning JSON responses.
+
+---
+
+### 3. Data Layer
+
+The data layer uses **PostgreSQL**.
+
+It stores:
+
+- users;
+- book listings;
+- exchange or borrowing requests;
+- messages;
+- book availability status.
+
+PostgreSQL is a good choice because Livract has clear relationships between data entities.
+
+Example relationships:
+
+```text
+User → Books
+User → Requests
+Book → Requests
+Request → Messages
+```
+
+---
+
+## Why This Architecture Was Chosen
+
+This architecture is the best choice for the Livract MVP because it is:
+
+- simple enough for a first version;
+- easy to build with a small team;
+- easy to explain in documentation;
+- scalable enough for future improvements;
+- compatible with mobile development;
+- not overcomplicated with unnecessary microservices.
+
+The MVP does not require microservices because the project is still small. A single modular back-end is easier to develop, test, debug, and deploy.
+
+---
+
+## Back-End Structure
+
+The back-end should be organized as a **modular monolith**.
+
+This means the project has one back-end application, but the code is separated into clear modules.
+
+```text
+backend/
+├── src/
+│   ├── modules/
+│   │   ├── auth/
+│   │   ├── users/
+│   │   ├── books/
+│   │   ├── requests/
+│   │   └── messages/
+│   │
+│   ├── config/
+│   ├── database/
+│   ├── middlewares/
+│   ├── utils/
+│   └── server.js
+│
+├── package.json
+└── README.md
+```
+
+---
+
+## Main Back-End Modules
+
+| Module | Responsibility |
 |---|---|
-| Andric Assani | Fullstack Developer, UI/UX Designer, QA Tester |
-| Lucas Lupon | Fullstack Developer, UI/UX Designer, QA Tester |
+| Auth Module | Verifies Firebase authentication tokens |
+| User Module | Manages user profiles |
+| Book Module | Creates, updates, deletes, and searches books |
+| Request Module | Handles borrow, give, and exchange requests |
+| Message Module | Handles basic messages linked to requests |
+| Database Module | Manages PostgreSQL connection and queries |
 
-The team will use **GitHub** for version control and repository management. **Discord** will be used for regular communication, messages, and weekly meetings. The team plans to communicate twice per week to review progress, identify blockers, and agree on next steps.
+---
 
-Decisions will be made through discussion and agreement. This supports collaboration because effective teams usually rely on clear communication, shared roles, trust, and common goals.
+## Front-End Structure
 
-## 3. Brainstorming Process
+The mobile app should be organized by screens and reusable components.
 
-The team explored ideas related to books, reading communities, and local sharing. The brainstorming process focused on real-world problems, especially the lack of simple tools for people who want to access books without always buying them.
+```text
+frontend/
+├── src/
+│   ├── screens/
+│   │   ├── AuthScreen.js
+│   │   ├── HomeScreen.js
+│   │   ├── BookDetailsScreen.js
+│   │   ├── AddBookScreen.js
+│   │   ├── MyBooksScreen.js
+│   │   ├── RequestsScreen.js
+│   │   ├── ChatScreen.js
+│   │   └── ProfileScreen.js
+│   │
+│   ├── components/
+│   │   ├── BookCard.js
+│   │   ├── SearchBar.js
+│   │   ├── FilterModal.js
+│   │   ├── RequestCard.js
+│   │   └── MessageBubble.js
+│   │
+│   ├── services/
+│   │   ├── api.js
+│   │   ├── authService.js
+│   │   ├── bookService.js
+│   │   └── requestService.js
+│   │
+│   └── navigation/
+│       └── AppNavigator.js
+│
+├── package.json
+└── README.md
+```
 
-The team considered this direction:
+---
 
-- A community-based book sharing app
+## Database Design
 
-## 4. Idea Explored
+The database is relational and uses PostgreSQL.
 
-### Idea 1: Livract — Book Sharing App
+### Main Tables
 
-**Description:**  
-Livract is a mobile app that allows users to list books, search for available books, and request to borrow, receive, or exchange books with other users.
+```mermaid
+erDiagram
+    USERS ||--o{ BOOKS : owns
+    USERS ||--o{ EXCHANGE_REQUESTS : sends
+    USERS ||--o{ MESSAGES : sends
+    BOOKS ||--o{ EXCHANGE_REQUESTS : receives
+    EXCHANGE_REQUESTS ||--o{ MESSAGES : contains
 
-**Problem solved:**  
-People do not have a centralized and easy-to-use way to share books, discover available books nearby, or communicate with other readers.
+    USERS {
+        uuid id PK
+        string firebase_uid UK
+        string username
+        string email UK
+        string city
+        text bio
+        string avatar_url
+        datetime created_at
+        datetime updated_at
+    }
 
-**Target users:**  
-Casual readers, book clubs, and local reading communities.
+    BOOKS {
+        uuid id PK
+        uuid owner_id FK
+        string title
+        string author
+        text description
+        string condition
+        string exchange_type
+        string status
+        string image_url
+        datetime created_at
+        datetime updated_at
+    }
 
-**Main features:**
+    EXCHANGE_REQUESTS {
+        uuid id PK
+        uuid book_id FK
+        uuid requester_id FK
+        uuid owner_id FK
+        string request_type
+        string status
+        text message
+        datetime created_at
+        datetime updated_at
+    }
 
-- User accounts and profiles
-- Add and manage book listings
-- Search and filter available books
-- Send borrowing, giving, or exchange requests
-- Accept or reject requests
-- Basic messaging
-- Book availability status
+    MESSAGES {
+        uuid id PK
+        uuid request_id FK
+        uuid sender_id FK
+        text content
+        datetime created_at
+    }
+```
 
-**Decision:**  
-Kept because it is useful, feasible, original, and matches the team’s skills. It also has strong potential to grow into a larger community platform.
+---
 
-## 5. Idea Evaluation
+## Main Data Flow
 
-| Criteria | Livract book sharing app |
-|---|---:|
-| Feasibility | 5/5 |
-| Impact | 4/5 |
-| Technical alignment | 2.5/5 |
-| Innovation | 4/5 |
-| Scalability | 5/5 |
-| Risk level | 2/5 |
+### User Authentication
 
-**Conclusion:**  
-Livract was selected because it offers the best balance between usefulness, originality, scalability, and feasibility. Even though the technical alignment score is lower because some parts are new to the team, the project remains realistic if the MVP is kept focused.
+```mermaid
+sequenceDiagram
+    actor User
+    participant App as React Native App
+    participant Firebase as Firebase Auth
+    participant API as Express API
+    participant DB as PostgreSQL
 
-## 6. Selected MVP Concept
+    User->>App: Enters email and password
+    App->>Firebase: Login or register
+    Firebase-->>App: Returns authentication token
+    App->>API: Sends token to API
+    API->>Firebase: Verifies token
+    Firebase-->>API: Token is valid
+    API->>DB: Creates or retrieves user profile
+    DB-->>API: Returns user data
+    API-->>App: Returns user profile
+```
 
-**Livract** is a mobile application that centralizes book sharing in one city. Users can create profiles, list books they own, search for books from other users, and send requests to borrow, receive, or exchange books.
+---
 
-The MVP focuses on a local community first instead of launching everywhere. This makes testing easier and reduces complexity.
+### Add a Book
 
-**Problem**
+```mermaid
+sequenceDiagram
+    actor Owner
+    participant App as React Native App
+    participant Storage as Firebase Storage / Cloudinary
+    participant API as Express API
+    participant DB as PostgreSQL
 
-People who want to read or share books often lack a simple local platform where they can find available books, contact owners, and organize book exchanges.
+    Owner->>App: Fills add book form
+    App->>Storage: Uploads book photo
+    Storage-->>App: Returns image URL
+    App->>API: Sends book data and image URL
+    API->>API: Validates authentication
+    API->>DB: Saves book listing
+    DB-->>API: Returns created book
+    API-->>App: Displays new book
+```
 
-**Solution**
+---
 
-Livract provides a mobile platform where users can:
+### Send a Book Request
 
-- Create a profile
-- Add book listings
-- Search and filter books
-- Request to borrow, receive, or exchange a book
-- Communicate through basic messages
-- Track whether a book is available, reserved, unavailable, or exchanged
+```mermaid
+sequenceDiagram
+    actor Requester
+    participant App as React Native App
+    participant API as Express API
+    participant DB as PostgreSQL
+    actor Owner
 
-**Target audience**
+    Requester->>App: Opens book details
+    Requester->>App: Sends request
+    App->>API: POST /books/:bookId/requests
+    API->>API: Validates user and book availability
+    API->>DB: Creates request
+    DB-->>API: Request saved
+    API-->>App: Returns pending request
+    Owner->>App: Opens received requests
+    App->>API: GET /requests?type=received
+    API->>DB: Fetches received requests
+    DB-->>API: Returns requests
+    API-->>App: Displays request
+```
 
-The first target users are casual readers and book clubs in one city.
+---
 
-## 7. Reasons for Selection
+## Internal API Overview
 
-Livract was selected for the following reasons:
+Base URL:
 
-| Reason | Explanation |
-|---|---|
-| Feasibility | The app can be built with React Native, Node.js, PostgreSQL, Firebase Auth, Figma, and GitHub. |
-| Impact | It solves an accessibility problem by helping users access books through local sharing instead of only buying them. |
-| Innovation | It combines book discovery, sharing, exchange, and community interaction in one app. |
-| Scalability | The app can later expand to more cities, reviews, ratings, events, recommendations, and advanced community features. |
-| Team alignment | The project allows both members to work on frontend, backend, database, documentation, design, testing, and GitHub. |
-| Controlled risk | The MVP avoids complex features such as online payment, AI recommendations, and web version development. |
+```text
+/api/v1
+```
 
-## 8. SMART Goals
+### Authentication and Users
 
-SMART goals should be specific, measurable, achievable, relevant, and time-bound, which makes progress easier to track and reduces vague objectives.
-
-### Goal 1: Book Listing and Search System
-
-By week 6, the team will develop and test a book listing and discovery system that allows users to add, edit, and view book listings with at least these fields: photo, title, author, condition, and availability. Success will be measured if both team members can create at least 10 sample book listings and successfully search/filter them inside the mobile app.
-
-### Goal 2: Request and Response System
-
-By week 7, the team will implement a borrowing, giving, or exchange request system that allows one user to send a request and another user to accept or reject it. Success will be measured if the team can complete at least 5 full test request flows in the app without critical errors.
-
-### Goal 3: Basic User Testing
-
-By week 9, the team will conduct MVP testing with at least 5 test users and collect feedback on usability, core features, and problems encountered. Success will be measured if the team receives written feedback from all 5 users and identifies at least 3 improvements to apply in the next development stage.
-
-## 9. Project Scope
-
-Project planning should clarify the “what,” “how,” and “when” of the project, including project scope, risks, milestones, and deliverables.
-
-### In Scope
-
-- Mobile app MVP
-- User registration and authentication
-- User profiles
-- Add and manage book listings
-- Events
-- Review / Ratings
-- Book listing fields:
-  - Photo
-  - Title
-  - Author
-  - Condition
-  - Availability
-- Search and filter books
-- Borrowing, giving, or exchange request system
-- Accept/reject requests
-- Basic messaging between users
-- Book availability status
-- **Exchange status tracking** instead of full delivery tracking
-
-### Out of Scope
-
-- Online payment
-- AI recommendation system
-- Web version
-- Advanced delivery/shipping logistics
-
-## 10. Risks and Mitigation
-
-| Risk | Impact | Mitigation |
+| Method | Endpoint | Description |
 |---|---|---|
-| Database complexity | The database may become difficult to design because the app needs users, books, requests, messages, and availability statuses. | Start with a simple database structure and test it early before adding extra features. |
-| Communication issues | Misunderstandings could slow progress or cause duplicated work. | Use Discord for regular updates, meet twice per week, and track tasks through GitHub. |
-| Users may not trust strangers | Users may hesitate to lend, give, or exchange books with unknown people. | Add user profiles, basic messaging, availability status, and accept/reject requests to make exchanges more transparent. |
-| Scope creep | The team may try to add too many features, such as events, ratings, or recommendations. | Keep these features out of scope and focus only on the MVP features. |
-| Technical learning curve | React Native, PostgreSQL, backend logic, and authentication may require learning time. | Assign features clearly, build small prototypes, and test each part progressively. |
+| POST | `/auth/sync` | Creates or updates a user after Firebase login |
+| GET | `/users/me` | Returns the current user profile |
+| PATCH | `/users/me` | Updates the current user profile |
+| GET | `/users/:id` | Returns a public user profile |
 
-## 11. Conclusion
+---
 
-Livract is a strong MVP choice because it solves a clear local accessibility problem around books. Instead of creating a simple review app or a limited event app, Livract focuses on the most useful core need: allowing readers to list, discover, request, and exchange books.
+### Books
 
-The project is feasible because the team has selected realistic technologies and a limited feature set. The MVP avoids complex features such as online payment, AI recommendations, reviews, ratings, and web development. Future versions could expand with book events, reviews, ratings, recommendations, and support for multiple cities.
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/books` | Returns available books with optional search and filters |
+| POST | `/books` | Creates a new book listing |
+| GET | `/books/:id` | Returns details of one book |
+| PATCH | `/books/:id` | Updates a book listing |
+| DELETE | `/books/:id` | Deletes a book listing |
+| GET | `/users/me/books` | Returns books owned by the current user |
+
+---
+
+### Requests
+
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/books/:bookId/requests` | Sends a request for a book |
+| GET | `/requests` | Returns sent or received requests |
+| GET | `/requests/:id` | Returns one request |
+| PATCH | `/requests/:id/status` | Updates request status |
+
+---
+
+### Messages
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/requests/:id/messages` | Returns messages for a request |
+| POST | `/requests/:id/messages` | Sends a message inside a request conversation |
+
+---
+
+## External Services
+
+| Service | Purpose |
+|---|---|
+| Firebase Authentication | Handles login and registration |
+| Firebase Admin SDK | Allows the back-end to verify user tokens |
+| Firebase Storage or Cloudinary | Stores book images |
+| GitHub | Hosts source code and supports collaboration |
+
+---
+
+## Security Considerations
+
+The API should include:
+
+- authentication middleware;
+- token verification with Firebase Admin SDK;
+- protected routes for creating books and requests;
+- permission checks for editing or deleting books;
+- permission checks for accepting or rejecting requests;
+- input validation for all API requests;
+- secure storage of environment variables;
+- HTTPS in production.
+
+---
+
+## Scalability Considerations
+
+The MVP starts with a simple architecture, but it can evolve later.
+
+Possible future improvements:
+
+- real-time messaging using WebSockets;
+- push notifications;
+- admin dashboard;
+- recommendation system;
+- location-based search;
+- moderation system;
+- deployment with Docker;
+- caching with Redis.
+
+---
+
+## Final Architecture Choice
+
+The best architecture for Livract is:
+
+```text
+React Native Mobile App
+        ↓
+Node.js / Express REST API
+        ↓
+PostgreSQL Database
+```
+
+With:
+
+```text
+Firebase Authentication for login
+Firebase Storage or Cloudinary for images
+GitHub for version control
+```
+
+This architecture is simple, realistic, and well-suited for the first MVP of Livract.
