@@ -68,29 +68,7 @@ The mockups can be created in Figma, but the following wireframes define the exp
 | Requests Page | Shows sent and received requests. |
 | Messages Page | Shows messages linked to a request. |
 | Profile Page | Shows and edits user profile information. |
-### Home Page Wireframe
-```text
-------------------------------------------------
-| Livract                         Profile      |
-------------------------------------------------
-| Search for a book...                         |
-| [All] [Lend] [Give] [Exchange]               |
-------------------------------------------------
-| Book Card                                    |
-| Title: The Hobbit                            |
-| Author: J.R.R. Tolkien                       |
-| Condition: Good                              |
-| Status: Available                            |
-| [View Details]                               |
-------------------------------------------------
-| Book Card                                    |
-| Title: 1984                                  |
-| Author: George Orwell                        |
-| Condition: Used                              |
-| Status: Available                            |
-| [View Details]                               |
-------------------------------------------------
-```
+
 # 1. System Architecture
 ## 1.1 Architecture Choice
 Livract uses a simple 3-tier Django architecture.
