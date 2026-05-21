@@ -312,26 +312,7 @@ sequenceDiagram
     DB-->>Django: Confirms creation
     Django-->>Browser: Redirects to login or home page
 ```
-## 3.3 Browse and Search Books
-```mermaid
-sequenceDiagram
-    actor User
-    participant Browser as Web Browser
-    participant Django as Django App
-    participant DB as PostgreSQL
-    User->>Browser: Opens book list
-    Browser->>Django: GET /books/
-    Django->>DB: Fetch available books
-    DB-->>Django: Returns book list
-    Django-->>Browser: Renders book list page
-    Browser-->>User: Displays books
-    User->>Browser: Searches or filters
-    Browser->>Django: GET /books/?search=value
-    Django->>DB: Queries matching books
-    DB-->>Django: Returns filtered results
-    Django-->>Browser: Renders filtered page
-```
-## 3.4 Add a Book
+## 3.2 Add a Book
 ```mermaid
 sequenceDiagram
     actor Owner
@@ -347,7 +328,7 @@ sequenceDiagram
     DB-->>Django: Confirms creation
     Django-->>Browser: Redirects to My Books
 ```
-## 3.5 Send a Book Request
+## 3.3 Send a Book Request
 ```mermaid
 sequenceDiagram
     actor Requester
@@ -363,46 +344,6 @@ sequenceDiagram
     Django->>DB: Creates request with pending status
     DB-->>Django: Confirms creation
     Django-->>Browser: Redirects to Requests page
-```
-## 3.6 Accept or Reject a Request
-```mermaid
-sequenceDiagram
-    actor Owner
-    participant Browser as Web Browser
-    participant Django as Django App
-    participant DB as PostgreSQL
-    Owner->>Browser: Opens received requests
-    Browser->>Django: GET /requests/
-    Django->>DB: Fetches received requests
-    DB-->>Django: Returns requests
-    Owner->>Browser: Clicks Accept or Reject
-    Browser->>Django: POST /requests/id/update-status/
-    Django->>DB: Checks owner permission
-    DB-->>Django: User is owner
-    Django->>DB: Updates request status
-    Django->>DB: Updates book status if accepted
-    DB-->>Django: Confirms update
-    Django-->>Browser: Shows updated status
-```
-## 3.7 Send a Message
-```mermaid
-sequenceDiagram
-    actor User
-    participant Browser as Web Browser
-    participant Django as Django App
-    participant DB as PostgreSQL
-    User->>Browser: Opens request conversation
-    Browser->>Django: GET /requests/id/messages/
-    Django->>DB: Checks user is part of request
-    DB-->>Django: User is authorized
-    Django->>DB: Fetches messages
-    DB-->>Django: Returns messages
-    Django-->>Browser: Displays conversation
-    User->>Browser: Sends message
-    Browser->>Django: POST /requests/id/messages/
-    Django->>DB: Saves message
-    DB-->>Django: Confirms message creation
-    Django-->>Browser: Displays new message
 ```
 ---
 # 4. Internal and External APIs
