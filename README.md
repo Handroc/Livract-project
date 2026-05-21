@@ -494,9 +494,7 @@ Local Development → Testing → Staging → Production
 | Need | Tool |
 |---|---|
 | Code hosting | GitHub. |
-| Back-end hosting | Render, Railway, or PythonAnywhere. |
 | Database | PostgreSQL. |
-| Static files | WhiteNoise. |
 | Media files | Local storage for MVP, Cloudinary later. |
 | CI/CD | GitHub Actions. |
 ### Definition of Done
