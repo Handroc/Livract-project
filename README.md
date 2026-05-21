@@ -397,7 +397,7 @@ However, the internal routes are documented like API endpoints.
 - Only a book owner can accept or reject a request.
 - Only the requester or owner can read request messages.
 - Only the requester or owner can send messages in a request conversation.
-- Anonymous users can browse public book listings if allowed by the MVP design.
+- Anonymous users can browse public book listings.
 ---
 # 5. SCM and QA Strategy
 ## 5.1 Source Control Management
