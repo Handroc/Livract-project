@@ -17,7 +17,7 @@ The MVP must prove that users can share books and organize exchanges inside a lo
 It must remain focused on the core product idea.
 It does not need payments, delivery tracking, AI recommendations, or real-time geolocation.
 The first version must be simple, testable, and usable.
-## 0.2 MoSCoW User Stories
+## 0.2 User Stories
 ### Must Have
 - As a **new user**, I want to **create an account**, so that I can **access Livract securely**.
 - As a **user**, I want to **log in**, so that I can **access my personal account**.
