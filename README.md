@@ -19,39 +19,41 @@ It does not need payments, delivery tracking, AI recommendations, or real-time g
 The first version must be simple, testable, and usable.
 ## 0.2 User Stories
 ### Must Have
-- As a **new user**, I want to **create an account**, so that I can **access Livract securely**.
-- As a **user**, I want to **log in**, so that I can **access my personal account**.
-- As a **user**, I want to **log out**, so that I can **protect my account**.
-- As a **user**, I want to **create a basic profile**, so that I can **other users can identify me**.
-- As a **book owner**, I want to **add a book listing**, so that I can **other users can discover my book**.
-- As a **book owner**, I want to **add a photo to a book**, so that I can **make the listing easier to understand**.
-- As a **book owner**, I want to **edit a book listing**, so that I can **keep book information accurate**.
-- As a **book owner**, I want to **delete a book listing**, so that I can **remove books I no longer want to share**.
-- As a **user**, I want to **browse available books**, so that I can **find books shared by the community**.
-- As a **user**, I want to **search books by title or author**, so that I can **find a specific book quickly**.
-- As a **user**, I want to **filter books by exchange type**, so that I can **find books available for lend, give, or exchange**.
-- As a **user**, I want to **view book details**, so that I can **decide whether I want to request the book**.
-- As a **user**, I want to **send a request for a book**, so that I can **ask the owner to lend, give, or exchange it**.
-- As a **book owner**, I want to **view received requests**, so that I can **know who is interested in my books**.
-- As a **book owner**, I want to **accept a request**, so that I can **confirm that I agree to the exchange**.
-- As a **book owner**, I want to **reject a request**, so that I can **decline a request I cannot accept**.
-- As a **user**, I want to **see request status**, so that I can **know whether a request is pending, accepted, or rejected**.
-### Should Have
-- As a **user**, I want to **send messages linked to a request**, so that I can **organize the exchange with the other user**.
-- As a **user**, I want to **view my sent requests**, so that I can **track books I asked for**.
-- As a **book owner**, I want to **view my own listed books**, so that I can **manage my shared books easily**.
-- As a **book owner**, I want to **automatically update availability after accepting a request**, so that I can **avoid duplicate requests**.
-- As a **user**, I want to **edit my profile**, so that I can **keep my personal information up to date**.
-- As a **user**, I want to **see the owner profile from a book page**, so that I can **know who owns the book**.
-- As a **user**, I want to **cancel a pending request**, so that I can **change my mind before the owner answers**.
-### Won't Have for MVP
-- Online payment system.
-- Delivery tracking.
-- AI-based book recommendations.
-- Advanced admin dashboard.
-- Real-time geolocation.
-- Native mobile app release.
-- Complex reputation system.
+### Must Have
+* As a reader, I want to register and log in, so that I can access the platform and manage my books securely
+* As a reader, I want to add a book to my library with a sharing type (loan, gift, exchange, sale), so that other readers can find it
+* As a reader, I want to browse books available around me on a map, so that I can find what is close to me
+* As a reader, I want to send a sharing request with a message, so that I can get a book from another reader
+* As a reader, I want to accept or decline a sharing request I received, so that I stay in control of my books
+* As a reader, I want to chat with the other reader once a request is accepted, so that we can organize the exchange
+* As a reader, I want to create a profile with a bio and my reading preferences, so that other readers can know who I am
+* As an individual, I want to post a literary event for free, so that readers nearby can discover and join it
+* As a professional, I want to post a limited number of events for free, so that I can test the platform before committing
+* As a professional, I want to pay to post additional events beyond my free quota, so that I can continue promoting my activities on the platform
+* As a professional, I want to manage my posted events, so that I can update or cancel them if needed
+
+### Should Have (important, but not critical for MVP)
+
+* As a reader, I want to filter books by exchange type, distance, genre and condition, so that I can quickly find what I'm looking for
+* As a reader, I want to search a book by title, author, genre or theme, so that I can find a specific book
+* As a reader, I want to see other readers around me and visit their profile, so that I can discover people with similar tastes
+* As a reader, I want to follow another reader, so that I can stay updated on their shared books
+* As a reader, I want to browse events near me filtered by type and date, so that I can participate in the local literary scene
+* As a professional, I want to see how many free event slots I have left, so that I know when I will need to pay
+* As an admin, I want to manage professional accounts and their quotas, so that I can control access to paid features
+
+### Could Have (nice to have, future)
+
+* As a reader, I want to add a review and personal notes on a book, so that other readers can benefit from my experience
+* As a reader, I want to receive a notification when a book I'm looking for becomes available nearby
+* As a reader, I want to earn a reader title based on my activity, so that my profile reflects my reading personality
+* As a professional, I want to access analytics on my events (views, participants), so that I can measure their impact
+
+### Won't Have (excluded for MVP)
+
+* As a professional, I want to subscribe to a monthly plan for unlimited event posting (future pricing model)
+* As a reader, I want to get AI-powered book recommendations based on my library (too complex for MVP)
+* As an admin, I want to see global platform revenue and statistics (future feature)
 ## 0.3 Mockups
 The MVP uses a simple web interface.
 The mockups can be created in Figma, but the following wireframes define the expected screens.
@@ -355,8 +357,6 @@ However, the internal routes are documented like API endpoints.
 |---|---|
 | Django Authentication | Handles user registration, login, logout, and sessions. |
 | PostgreSQL | Stores relational application data. |
-| Local Media Storage | Stores uploaded images during development and MVP testing. |
-| Cloudinary | Possible future solution for production image hosting. |
 | GitHub | Stores code and documentation. |
 ## 4.2 Internal Routes
 ### Authentication and Profiles
