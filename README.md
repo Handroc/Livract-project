@@ -19,7 +19,6 @@ It does not need payments, delivery tracking, AI recommendations, or real-time g
 The first version must be simple, testable, and usable.
 ## 0.2 User Stories
 ### Must Have
-### Must Have
 * As a reader, I want to register and log in, so that I can access the platform and manage my books securely
 * As a reader, I want to add a book to my library with a sharing type (loan, gift, exchange, sale), so that other readers can find it
 * As a reader, I want to browse books available around me on a map, so that I can find what is close to me
