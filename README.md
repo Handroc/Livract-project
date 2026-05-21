@@ -1,247 +1,174 @@
 # Livract — MVP Technical Documentation
-
-## Table of Contents
-
-- [0) User Stories and Mockups](#0-user-stories-and-mockups)
-  - [0.1 User Stories](#01-user-stories)
-  - [0.2 Mockups](#02-mockups)
-- [1) Design System Architecture](#1-design-system-architecture)
-- [2) Components, Classes and Database Design](#2-components-classes-and-database-design)
-  - [2.1 Front-End Components](#21-front-end-components)
-  - [2.2 Back-End Components](#22-back-end-components)
-  - [2.3 Database Design](#23-database-design)
-- [3) High-Level Sequence Diagrams](#3-high-level-sequence-diagrams)
-- [4) API and Methods](#4-api-and-methods)
-- [5) SCM and QA Strategy](#5-scm-and-qa-strategy)
-
+## Project Overview
+Livract is a web application that helps people in a local community share, lend, give, or exchange books.
+### Chosen Stack
+| Layer | Technology |
+|---|---|
+| Front-end | HTML, CSS, Django Templates |
+| Back-end | Python, Django |
+| Database | PostgreSQL |
+| Authentication | Django Authentication |
+| Media Storage | Local media storage for MVP |
+| Version Control | Git and GitHub |
 ---
-
-<p align="center">
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" width="70" height="70"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" alt="Django" width="70" height="70"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" width="70" height="70"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML" width="70" height="70"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS" width="70" height="70"/>
-</p>
-
-<p align="center">
-  <b>Python</b> • <b>Django</b> • <b>PostgreSQL</b> • <b>HTML</b> • <b>CSS</b>
-</p>
-
----
-
-# 0) User Stories and Mockups
-
-## 0.1 User Stories
-
-Livract is a web application that helps people in the same local community share, lend, give, or exchange books.
-
-The MVP focuses on the essential features needed to create book listings, browse available books, send requests, and communicate with other users.
-
----
-
+# 0. User Stories and Mockups
+## 0.1 MVP Goal
+The MVP must prove that users can share books and organize exchanges inside a local community.
+It must remain focused on the core product idea.
+It does not need payments, delivery tracking, AI recommendations, or real-time geolocation.
+The first version must be simple, testable, and usable.
+## 0.2 MoSCoW User Stories
 ### Must Have
-
-- As a **new user**, I want to **create an account**, so that I can access Livract securely.
-- As a **user**, I want to **log in and log out**, so that I can protect my account.
-- As a **user**, I want to **create a basic profile**, so that other users can identify me.
-- As a **book owner**, I want to **add a book listing**, so that other users can discover my book.
-- As a **book owner**, I want to **edit or delete my book listing**, so that I can keep my information up to date.
-- As a **user**, I want to **browse available books**, so that I can find books shared by the community.
-- As a **user**, I want to **search or filter books**, so that I can quickly find books that interest me.
-- As a **user**, I want to **send a request for a book**, so that I can ask to borrow, receive, or exchange it.
-- As a **book owner**, I want to **accept or reject requests**, so that I can control who receives or borrows my book.
-
----
-
+- As a **new user**, I want to **create an account**, so that I can **access Livract securely**.
+- As a **user**, I want to **log in**, so that I can **access my personal account**.
+- As a **user**, I want to **log out**, so that I can **protect my account**.
+- As a **user**, I want to **create a basic profile**, so that I can **other users can identify me**.
+- As a **book owner**, I want to **add a book listing**, so that I can **other users can discover my book**.
+- As a **book owner**, I want to **add a photo to a book**, so that I can **make the listing easier to understand**.
+- As a **book owner**, I want to **edit a book listing**, so that I can **keep book information accurate**.
+- As a **book owner**, I want to **delete a book listing**, so that I can **remove books I no longer want to share**.
+- As a **user**, I want to **browse available books**, so that I can **find books shared by the community**.
+- As a **user**, I want to **search books by title or author**, so that I can **find a specific book quickly**.
+- As a **user**, I want to **filter books by exchange type**, so that I can **find books available for lend, give, or exchange**.
+- As a **user**, I want to **view book details**, so that I can **decide whether I want to request the book**.
+- As a **user**, I want to **send a request for a book**, so that I can **ask the owner to lend, give, or exchange it**.
+- As a **book owner**, I want to **view received requests**, so that I can **know who is interested in my books**.
+- As a **book owner**, I want to **accept a request**, so that I can **confirm that I agree to the exchange**.
+- As a **book owner**, I want to **reject a request**, so that I can **decline a request I cannot accept**.
+- As a **user**, I want to **see request status**, so that I can **know whether a request is pending, accepted, or rejected**.
 ### Should Have
-
-- As a **user**, I want to **send messages linked to a request**, so that I can organize the exchange with the other user.
-- As a **user**, I want to **see the status of my requests**, so that I know if they are pending, accepted, or rejected.
-- As a **book owner**, I want the **book availability to change automatically**, so that unavailable books are not requested again.
-- As a **user**, I want to **see my own listed books**, so that I can manage them easily.
-
----
-
-### Could Have
-
-- As a **user**, I want to **save favorite books**, so that I can find them again later.
-- As a **user**, I want to **receive notifications**, so that I know when someone answers my request.
-- As a **user**, I want to **filter books by city area**, so that I can find books near me.
-- As a **user**, I want to **review another user after an exchange**, so that the community becomes more trustworthy.
-
----
-
-### Won’t Have for MVP
-
+- As a **user**, I want to **send messages linked to a request**, so that I can **organize the exchange with the other user**.
+- As a **user**, I want to **view my sent requests**, so that I can **track books I asked for**.
+- As a **book owner**, I want to **view my own listed books**, so that I can **manage my shared books easily**.
+- As a **book owner**, I want to **automatically update availability after accepting a request**, so that I can **avoid duplicate requests**.
+- As a **user**, I want to **edit my profile**, so that I can **keep my personal information up to date**.
+- As a **user**, I want to **see the owner profile from a book page**, so that I can **know who owns the book**.
+- As a **user**, I want to **cancel a pending request**, so that I can **change my mind before the owner answers**.
+### Won't Have for MVP
 - Online payment system.
 - Delivery tracking.
-- AI book recommendations.
-- Advanced admin moderation dashboard.
+- AI-based book recommendations.
+- Advanced admin dashboard.
 - Real-time geolocation.
-
----
-
-## 0.2 Mockups
-
-The MVP has a simple web interface. The main screens are:
-
+- Native mobile app release.
+- Complex reputation system.
+## 0.3 Mockups
+The MVP uses a simple web interface.
+The mockups can be created in Figma, but the following wireframes define the expected screens.
+### Main Screens
 | Screen | Purpose |
 |---|---|
-| Login / Register Page | Allows users to create an account or log in |
-| Home Page | Displays available books |
-| Book Details Page | Shows full information about one book |
-| Add Book Page | Allows users to publish a book listing |
-| My Books Page | Allows users to manage their own books |
-| Requests Page | Displays sent and received requests |
-| Messages Page | Allows users to discuss a request |
-| Profile Page | Shows and updates user profile information |
-
----
-
-### Example Home Page Wireframe
-
+| Login Page | Allows existing users to log in. |
+| Register Page | Allows new users to create an account. |
+| Home Page | Displays available books. |
+| Book Details Page | Shows all information about a selected book. |
+| Add Book Page | Allows users to create a book listing. |
+| Edit Book Page | Allows owners to update a listing. |
+| My Books Page | Shows books created by the current user. |
+| Requests Page | Shows sent and received requests. |
+| Messages Page | Shows messages linked to a request. |
+| Profile Page | Shows and edits user profile information. |
+### Home Page Wireframe
 ```text
 ------------------------------------------------
-| Livract                 Search      Profile   |
+| Livract                         Profile      |
 ------------------------------------------------
-| Search for a book...                          |
-| [All] [Lend] [Give] [Exchange]                |
+| Search for a book...                         |
+| [All] [Lend] [Give] [Exchange]               |
 ------------------------------------------------
-| Book Card                                      |
-| Title: The Hobbit                             |
-| Author: J.R.R. Tolkien                        |
-| Condition: Good                               |
-| Status: Available                             |
-| [View Details]                                |
+| Book Card                                    |
+| Title: The Hobbit                            |
+| Author: J.R.R. Tolkien                       |
+| Condition: Good                              |
+| Status: Available                            |
+| [View Details]                               |
 ------------------------------------------------
-| Book Card                                      |
-| Title: 1984                                   |
-| Author: George Orwell                         |
-| Condition: Used                               |
-| Status: Available                             |
-| [View Details]                                |
-------------------------------------------------
-```
-
----
-
-### Example Book Details Wireframe
-
-```text
-------------------------------------------------
-| Back                                           |
-------------------------------------------------
-| Book image                                    |
-| Title: The Hobbit                             |
-| Author: J.R.R. Tolkien                        |
-| Condition: Good                               |
-| Type: Lend                                    |
-| Owner: Andric                                 |
-| Availability: Available                       |
-------------------------------------------------
-| [Send Request]                                |
+| Book Card                                    |
+| Title: 1984                                  |
+| Author: George Orwell                        |
+| Condition: Used                              |
+| Status: Available                            |
+| [View Details]                               |
 ------------------------------------------------
 ```
-
----
-
-# 1) Design System Architecture
-
-Livract uses a simple **3-tier architecture**.
-
-```text
-Web Browser → Django Application → PostgreSQL Database
-```
-
-This architecture is suitable for an MVP because it is simple, realistic, and can be built mainly with Python.
-
----
-
-## Architecture Diagram
-
+# 1. System Architecture
+## 1.1 Architecture Choice
+Livract uses a simple 3-tier Django architecture.
+The architecture is: Web Browser → Django Application → PostgreSQL Database.
+This structure is realistic for a small MVP and can be built mainly with Python.
+It avoids unnecessary complexity such as microservices or a separate mobile back-end.
+Django handles routing, views, templates, forms, authentication, permissions, and business logic.
+PostgreSQL stores all relational data used by the application.
+Book images are stored in local media storage for the MVP.
+Cloud image storage can be added later if the app is deployed publicly.
+## 1.2 Architecture Diagram
 ```mermaid
 flowchart TD
     User[User] --> Browser[Web Browser]
-
-    Browser -->|HTTP Requests| Django[Django Application]
-
+    Browser -->|HTTP Request| Django[Django Application]
     Django --> Auth[Authentication System]
     Django --> Books[Book Management]
     Django --> Requests[Request Management]
     Django --> Messages[Message Management]
-
     Django -->|Read / Write Data| DB[(PostgreSQL Database)]
-
     Django -->|Store / Retrieve Images| Media[Media Storage]
-
-    Django -->|HTML Pages| Browser
+    Django -->|HTML Response| Browser
 ```
-
----
-
-## Explanation
-
-- **Web Browser**  
-  The user accesses Livract through a browser.
-
-- **Django Application**  
-  Django handles routes, views, forms, authentication, permissions, and business logic.
-
-- **PostgreSQL Database**  
-  Stores users, profiles, books, requests, and messages.
-
-- **Media Storage**  
-  Stores uploaded book images.
-
----
-
-## Data Flow
-
-```text
-User → Browser → Django View → Database → Django Template → Browser
-```
-
-Step by step:
-
-1. The user opens a page.
+## 1.3 Architecture Layers
+### Presentation Layer
+The presentation layer is built with HTML, CSS, and Django templates.
+It displays pages, forms, book cards, request cards, and messages.
+It is responsible for the visible part of the application.
+### Application Layer
+The application layer is the Django project.
+It handles user actions, validates forms, checks permissions, and applies business rules.
+This layer decides what users are allowed to do.
+### Data Layer
+The data layer is PostgreSQL.
+It stores users, profiles, books, exchange requests, and messages.
+The Django ORM is used to communicate with the database.
+## 1.4 Data Flow
+1. The user opens a page in the browser.
 2. The browser sends an HTTP request to Django.
-3. Django processes the request.
-4. Django reads or writes data in PostgreSQL.
-5. Django returns an HTML page.
-6. The user sees the updated page.
-
+3. Django routes the request to the correct view.
+4. The view checks authentication and permissions if needed.
+5. The view reads or writes data using Django models.
+6. PostgreSQL returns the requested data.
+7. Django renders an HTML template.
+8. The browser displays the updated page to the user.
+## 1.5 Why This Architecture Fits the MVP
+- It is easy to understand.
+- It is easy to explain in the project documentation.
+- It can be implemented by a small team.
+- It uses Python for most of the back-end work.
+- It avoids unnecessary mobile complexity.
+- It works well with relational data.
+- It can later evolve into a REST API or a mobile app.
 ---
-
-# 2) Components, Classes and Database Design
-
+# 2. Components, Classes, and Database Design
 ## 2.1 Front-End Components
-
-The front-end is built with **HTML**, **CSS**, and **Django templates**.
-
-| Component / Page | Type | Purpose |
+The front-end is server-rendered using Django templates.
+Each page is connected to a Django view.
+Reusable UI blocks can be separated into template partials.
+| Component | Type | Responsibility |
 |---|---|---|
-| `HomePage` | Page | Displays available books |
-| `LoginPage` | Page | Allows users to log in |
-| `RegisterPage` | Page | Allows users to create an account |
-| `BookDetailsPage` | Page | Shows detailed information about one book |
-| `AddBookPage` | Page | Allows users to add a book listing |
-| `EditBookPage` | Page | Allows book owners to update a listing |
-| `MyBooksPage` | Page | Displays books created by the current user |
-| `RequestsPage` | Page | Shows sent and received requests |
-| `MessagesPage` | Page | Displays messages linked to a request |
-| `ProfilePage` | Page | Shows and updates user profile |
-| `BookCard` | UI Component | Displays a book preview |
-| `SearchBar` | UI Component | Allows users to search books |
-| `FilterForm` | UI Component | Allows users to filter books |
-| `RequestCard` | UI Component | Displays request status and actions |
-
----
-
+| BaseTemplate | Template | Provides common layout, navigation, and page structure. |
+| HomePage | Page | Displays available books and search filters. |
+| LoginPage | Page | Displays the login form. |
+| RegisterPage | Page | Displays the registration form. |
+| ProfilePage | Page | Displays and updates user information. |
+| BookCard | Partial | Displays a short book preview. |
+| BookDetailsPage | Page | Displays detailed information about a book. |
+| AddBookPage | Page | Displays a form to add a book. |
+| EditBookPage | Page | Displays a form to edit a book. |
+| MyBooksPage | Page | Displays books owned by the current user. |
+| RequestsPage | Page | Displays sent and received requests. |
+| RequestCard | Partial | Displays request status and possible actions. |
+| MessagesPage | Page | Displays conversation messages for one request. |
+| MessageItem | Partial | Displays one message. |
+| SearchForm | Form | Allows the user to search or filter books. |
 ## 2.2 Back-End Components
-
-The Django project is divided into several apps.
-
+The Django project is separated into apps to keep the code easier to maintain.
 ```text
 livract/
 ├── accounts/
@@ -253,115 +180,68 @@ livract/
 ├── static/
 └── media/
 ```
-
-| App | Responsibility |
+| Django App | Responsibility |
 |---|---|
-| `accounts` | User registration, login, logout, profile |
-| `books` | Book creation, editing, deleting, search |
-| `exchanges` | Borrow, give, and exchange requests |
-| `messaging` | Messages linked to requests |
-| `core` | Homepage, shared views, general logic |
-
----
-
-## Main Classes / Models
-
+| `accounts` | Registration, login, logout, and profile management. |
+| `books` | Book listings, search, creation, update, and deletion. |
+| `exchanges` | Borrowing, giving, and exchange requests. |
+| `messaging` | Messages connected to exchange requests. |
+| `core` | Homepage, shared views, and general pages. |
+## 2.3 Models and Classes
+The main models are User, Profile, Book, ExchangeRequest, and Message.
+Django already provides the base User model.
+Livract adds custom models for product-specific data.
 ### User
-
-Django already provides a built-in `User` model.
-
-It manages:
-
-- username;
-- email;
-- password;
-- authentication;
-- permissions.
-
----
-
+The User model is provided by Django.
+It manages username, email, password, authentication, and permissions.
 ### Profile
-
-The `Profile` model extends the user account with Livract-specific information.
-
-| Attribute | Type | Description |
+| Field | Type | Description |
 |---|---|---|
-| `user` | OneToOneField | Linked Django user |
-| `city` | CharField | User city |
-| `bio` | TextField | Optional description |
-| `avatar` | ImageField | Optional profile picture |
-
----
-
+| `user` | OneToOneField | Linked Django user. |
+| `city` | CharField | User city or local community. |
+| `bio` | TextField | Optional user description. |
+| `avatar` | ImageField | Optional profile picture. |
+| `created_at` | DateTimeField | Profile creation date. |
+| `updated_at` | DateTimeField | Last profile update date. |
 ### Book
-
-Represents a book listing.
-
-| Attribute | Type | Description |
+| Field | Type | Description |
 |---|---|---|
-| `owner` | ForeignKey | User who owns the book |
-| `title` | CharField | Book title |
-| `author` | CharField | Book author |
-| `description` | TextField | Optional description |
-| `condition` | CharField | New, good, used, damaged |
-| `exchange_type` | CharField | Lend, give, exchange |
-| `status` | CharField | Available, reserved, unavailable |
-| `image` | ImageField | Optional book image |
-| `created_at` | DateTimeField | Creation date |
-| `updated_at` | DateTimeField | Last update date |
-
----
-
+| `owner` | ForeignKey | User who owns the book. |
+| `title` | CharField | Book title. |
+| `author` | CharField | Book author. |
+| `description` | TextField | Optional book description. |
+| `condition` | CharField | New, good, used, or damaged. |
+| `exchange_type` | CharField | Lend, give, or exchange. |
+| `status` | CharField | Available, reserved, or unavailable. |
+| `image` | ImageField | Optional book image. |
+| `created_at` | DateTimeField | Listing creation date. |
+| `updated_at` | DateTimeField | Last listing update date. |
 ### ExchangeRequest
-
-Represents a request sent by one user for a book.
-
-| Attribute | Type | Description |
+| Field | Type | Description |
 |---|---|---|
-| `book` | ForeignKey | Requested book |
-| `requester` | ForeignKey | User sending the request |
-| `owner` | ForeignKey | Owner of the book |
-| `request_type` | CharField | Borrow, give, exchange |
-| `status` | CharField | Pending, accepted, rejected, cancelled, completed |
-| `message` | TextField | Optional first message |
-| `created_at` | DateTimeField | Creation date |
-| `updated_at` | DateTimeField | Last update date |
-
----
-
+| `book` | ForeignKey | Requested book. |
+| `requester` | ForeignKey | User who sends the request. |
+| `owner` | ForeignKey | Owner of the requested book. |
+| `request_type` | CharField | Borrow, give, or exchange. |
+| `status` | CharField | Pending, accepted, rejected, cancelled, or completed. |
+| `message` | TextField | Optional first message. |
+| `created_at` | DateTimeField | Request creation date. |
+| `updated_at` | DateTimeField | Last request update date. |
 ### Message
-
-Represents a message inside an exchange request.
-
-| Attribute | Type | Description |
+| Field | Type | Description |
 |---|---|---|
-| `exchange_request` | ForeignKey | Related request |
-| `sender` | ForeignKey | User who sent the message |
-| `content` | TextField | Message text |
-| `created_at` | DateTimeField | Message creation date |
-
----
-
-## Backend Components Overview
-
-| Component | Simple Meaning | What it Does | Main Model |
-|---|---|---|---|
-| Authentication | Login system | Handles registration, login, logout | User |
-| Profile Service | User identity | Stores city, bio, avatar | Profile |
-| Book Service | Book catalog | Creates, updates, deletes, searches books | Book |
-| Request Service | Exchange system | Handles borrow/give/exchange requests | ExchangeRequest |
-| Message Service | Communication | Allows users to discuss a request | Message |
-
----
-
-## 2.3 Database Design
-
-Livract uses a relational database because the project has clear relationships between users, books, requests, and messages.
-
----
-
-## Entity Relationship Diagram
-
+| `exchange_request` | ForeignKey | Request conversation linked to the message. |
+| `sender` | ForeignKey | User who sent the message. |
+| `content` | TextField | Message text. |
+| `created_at` | DateTimeField | Message creation date. |
+## 2.4 Database Design
+Livract uses a relational database because the entities are strongly connected.
+A user owns books.
+A user sends requests.
+A book receives requests.
+A request contains messages.
+These relationships are well suited for PostgreSQL.
+### Entity Relationship Diagram
 ```mermaid
 erDiagram
     USER ||--|| PROFILE : has
@@ -370,14 +250,12 @@ erDiagram
     USER ||--o{ MESSAGE : sends
     BOOK ||--o{ EXCHANGE_REQUEST : receives
     EXCHANGE_REQUEST ||--o{ MESSAGE : contains
-
     USER {
         int id PK
         string username
         string email
         string password
     }
-
     PROFILE {
         int id PK
         int user_id FK
@@ -385,7 +263,6 @@ erDiagram
         text bio
         string avatar
     }
-
     BOOK {
         int id PK
         int owner_id FK
@@ -399,7 +276,6 @@ erDiagram
         datetime created_at
         datetime updated_at
     }
-
     EXCHANGE_REQUEST {
         int id PK
         int book_id FK
@@ -411,7 +287,6 @@ erDiagram
         datetime created_at
         datetime updated_at
     }
-
     MESSAGE {
         int id PK
         int exchange_request_id FK
@@ -420,108 +295,65 @@ erDiagram
         datetime created_at
     }
 ```
-
+### Main Tables
+| Table | Purpose |
+|---|---|
+| `auth_user` | Stores Django user accounts. |
+| `profiles` | Stores additional user profile data. |
+| `books` | Stores book listings. |
+| `exchange_requests` | Stores requests for books. |
+| `messages` | Stores conversation messages. |
+### Validation Rules
+| Area | Rule |
+|---|---|
+| User | Username and email are required. |
+| Profile | City is required for local community context. |
+| Book | Title, author, condition, exchange type, and status are required. |
+| Book | Only the owner can edit or delete a book. |
+| ExchangeRequest | A user cannot request their own book. |
+| ExchangeRequest | Only the owner can accept or reject a request. |
+| Message | Only users involved in the request can view or send messages. |
 ---
-
-## Database Tables
-
-| Table | What it Represents | Main Fields |
-|---|---|---|
-| `auth_user` | Django user accounts | `id`, `username`, `email`, `password` |
-| `profiles` | User profile information | `user_id`, `city`, `bio`, `avatar` |
-| `books` | Book listings | `owner_id`, `title`, `author`, `condition`, `status` |
-| `exchange_requests` | Requests for books | `book_id`, `requester_id`, `owner_id`, `status` |
-| `messages` | Conversation messages | `exchange_request_id`, `sender_id`, `content` |
-
----
-
-## In Short
-
-- **User** = who uses the app.
-- **Profile** = extra information about the user.
-- **Book** = what users share.
-- **ExchangeRequest** = what users ask for.
-- **Message** = how users communicate.
-
----
-
-# 3) High-Level Sequence Diagrams
-
-This section shows the main interactions of the Livract MVP.
-
-The most important user flows are:
-
-1. User registration and login.
-2. Browsing books.
-3. Adding a book.
-4. Sending a request.
-5. Accepting or rejecting a request.
-6. Sending a message.
-
----
-
-## 3.1 User Login
-
+# 3. High-Level Sequence Diagrams
+This section describes the main interactions of the MVP.
+The diagrams are high-level and focus on the most important flows.
+## 3.1 User Registration
 ```mermaid
 sequenceDiagram
     actor User
     participant Browser as Web Browser
     participant Django as Django App
     participant DB as PostgreSQL
-
-    User->>Browser: Enters username and password
-    Browser->>Django: Sends login form
-    Django->>DB: Checks user credentials
-    DB-->>Django: Returns user data
-    Django-->>Browser: Creates session and redirects
-    Browser-->>User: Shows homepage
+    User->>Browser: Opens registration page
+    Browser->>Django: GET /register/
+    Django-->>Browser: Returns registration form
+    User->>Browser: Enters account information
+    Browser->>Django: POST /register/
+    Django->>Django: Validates form
+    Django->>DB: Creates user and profile
+    DB-->>Django: Confirms creation
+    Django-->>Browser: Redirects to login or home page
 ```
-
-### Explanation
-
-1. The user enters their login information.
-2. Django receives the form.
-3. Django checks the credentials.
-4. If valid, Django creates a session.
-5. The user is redirected to the homepage.
-
----
-
-## 3.2 Browse and Search Books
-
+## 3.3 Browse and Search Books
 ```mermaid
 sequenceDiagram
     actor User
     participant Browser as Web Browser
     participant Django as Django App
     participant DB as PostgreSQL
-
-    User->>Browser: Opens homepage
+    User->>Browser: Opens book list
     Browser->>Django: GET /books/
     Django->>DB: Fetch available books
     DB-->>Django: Returns book list
     Django-->>Browser: Renders book list page
     Browser-->>User: Displays books
-
-    User->>Browser: Searches or filters books
-    Browser->>Django: GET /books/?search=title&type=lend
-    Django->>DB: Query matching books
-    DB-->>Django: Returns filtered books
-    Django-->>Browser: Renders filtered results
+    User->>Browser: Searches or filters
+    Browser->>Django: GET /books/?search=value
+    Django->>DB: Queries matching books
+    DB-->>Django: Returns filtered results
+    Django-->>Browser: Renders filtered page
 ```
-
-### Explanation
-
-1. The user opens the book list.
-2. Django asks the database for available books.
-3. The database returns the books.
-4. Django displays the books in the page.
-5. If the user searches, Django filters the results.
-
----
-
-## 3.3 Add a Book Listing
-
+## 3.4 Add a Book
 ```mermaid
 sequenceDiagram
     actor Owner
@@ -529,72 +361,44 @@ sequenceDiagram
     participant Django as Django App
     participant Storage as Media Storage
     participant DB as PostgreSQL
-
-    Owner->>Browser: Fills Add Book form
+    Owner->>Browser: Fills add book form
     Browser->>Django: POST /books/add/
     Django->>Django: Validates form
     Django->>Storage: Saves uploaded image
     Django->>DB: Saves book listing
     DB-->>Django: Confirms creation
     Django-->>Browser: Redirects to My Books
-    Browser-->>Owner: Displays new book
 ```
-
-### Explanation
-
-1. The owner fills the form.
-2. Django validates the data.
-3. The image is saved.
-4. The book is stored in PostgreSQL.
-5. The new book appears in the user’s listings.
-
----
-
-## 3.4 Send a Book Request
-
+## 3.5 Send a Book Request
 ```mermaid
 sequenceDiagram
     actor Requester
     participant Browser as Web Browser
     participant Django as Django App
     participant DB as PostgreSQL
-
     Requester->>Browser: Clicks Send Request
-    Browser->>Django: POST /books/:id/request/
+    Browser->>Django: POST /books/id/request/
     Django->>DB: Checks book availability
     DB-->>Django: Book is available
     Django->>DB: Checks requester is not owner
     DB-->>Django: Request is valid
     Django->>DB: Creates request with pending status
-    DB-->>Django: Request created
+    DB-->>Django: Confirms creation
     Django-->>Browser: Redirects to Requests page
 ```
-
-### Explanation
-
-1. The user requests a book.
-2. Django checks if the book is available.
-3. Django checks that the requester is not the owner.
-4. The request is saved with a `pending` status.
-
----
-
-## 3.5 Accept or Reject a Request
-
+## 3.6 Accept or Reject a Request
 ```mermaid
 sequenceDiagram
     actor Owner
     participant Browser as Web Browser
     participant Django as Django App
     participant DB as PostgreSQL
-
     Owner->>Browser: Opens received requests
     Browser->>Django: GET /requests/
-    Django->>DB: Fetch received requests
+    Django->>DB: Fetches received requests
     DB-->>Django: Returns requests
-
     Owner->>Browser: Clicks Accept or Reject
-    Browser->>Django: POST /requests/:id/update-status/
+    Browser->>Django: POST /requests/id/update-status/
     Django->>DB: Checks owner permission
     DB-->>Django: User is owner
     Django->>DB: Updates request status
@@ -602,136 +406,110 @@ sequenceDiagram
     DB-->>Django: Confirms update
     Django-->>Browser: Shows updated status
 ```
-
----
-
-## 3.6 Send a Message
-
+## 3.7 Send a Message
 ```mermaid
 sequenceDiagram
     actor User
     participant Browser as Web Browser
     participant Django as Django App
     participant DB as PostgreSQL
-
     User->>Browser: Opens request conversation
-    Browser->>Django: GET /requests/:id/messages/
+    Browser->>Django: GET /requests/id/messages/
     Django->>DB: Checks user is part of request
     DB-->>Django: User is authorized
-    Django->>DB: Fetch messages
+    Django->>DB: Fetches messages
     DB-->>Django: Returns messages
     Django-->>Browser: Displays conversation
-
     User->>Browser: Sends message
-    Browser->>Django: POST /requests/:id/messages/
+    Browser->>Django: POST /requests/id/messages/
     Django->>DB: Saves message
-    DB-->>Django: Message saved
-    Django-->>Browser: Shows new message
+    DB-->>Django: Confirms message creation
+    Django-->>Browser: Displays new message
 ```
-
 ---
-
-# 4) API and Methods
-
-For the first Django MVP, Livract mainly uses server-rendered pages with Django views and forms.
-
-A full REST API is not required for the first version, but the internal routes can still be documented clearly.
-
----
-
-## 4.1 External APIs Used
-
-| API / Service | Purpose | Why Chosen |
-|---|---|---|
-| Django Authentication | User login and registration | Built into Django and simple for MVP |
-| PostgreSQL | Relational database | Good for users, books, requests, and messages |
-| Local Media Storage | Book image upload | Simple for development and MVP |
-| Cloudinary | Future image hosting | Useful later for production image storage |
-
----
-
+# 4. Internal and External APIs
+For the first MVP, Livract uses Django views and server-rendered pages.
+A separate REST API is not required in the initial version.
+However, the internal routes are documented like API endpoints.
+## 4.1 External Services
+| Service | Purpose |
+|---|---|
+| Django Authentication | Handles user registration, login, logout, and sessions. |
+| PostgreSQL | Stores relational application data. |
+| Local Media Storage | Stores uploaded images during development and MVP testing. |
+| Cloudinary | Possible future solution for production image hosting. |
+| GitHub | Stores code and documentation. |
 ## 4.2 Internal Routes
-
 ### Authentication and Profiles
-
 | Method | Route | Description |
 |---|---|---|
-| GET | `/register/` | Display registration page |
-| POST | `/register/` | Create a new account |
-| GET | `/login/` | Display login page |
-| POST | `/login/` | Log in user |
-| POST | `/logout/` | Log out user |
-| GET | `/profile/` | Display current user profile |
-| POST | `/profile/edit/` | Update current user profile |
-
----
-
+| GET | `/register/` | Display registration form. |
+| POST | `/register/` | Create a new account. |
+| GET | `/login/` | Display login form. |
+| POST | `/login/` | Authenticate user. |
+| POST | `/logout/` | Log out current user. |
+| GET | `/profile/` | Display current user profile. |
+| POST | `/profile/edit/` | Update current user profile. |
 ### Books
-
 | Method | Route | Description |
 |---|---|---|
-| GET | `/books/` | Display available books |
-| GET | `/books/?search=value` | Search books |
-| GET | `/books/<id>/` | Display one book |
-| GET | `/books/add/` | Display add book form |
-| POST | `/books/add/` | Create book listing |
-| GET | `/books/<id>/edit/` | Display edit form |
-| POST | `/books/<id>/edit/` | Update book listing |
-| POST | `/books/<id>/delete/` | Delete book listing |
-| GET | `/my-books/` | Display current user’s books |
-
----
-
-### Requests
-
+| GET | `/books/` | Display available books. |
+| GET | `/books/?search=value` | Search books. |
+| GET | `/books/<id>/` | Display one book. |
+| GET | `/books/add/` | Display add book form. |
+| POST | `/books/add/` | Create a book listing. |
+| GET | `/books/<id>/edit/` | Display edit book form. |
+| POST | `/books/<id>/edit/` | Update a book listing. |
+| POST | `/books/<id>/delete/` | Delete a book listing. |
+| GET | `/my-books/` | Display current user's books. |
+### Requests and Messages
 | Method | Route | Description |
 |---|---|---|
-| POST | `/books/<id>/request/` | Send request for a book |
-| GET | `/requests/` | Display sent and received requests |
-| POST | `/requests/<id>/accept/` | Accept request |
-| POST | `/requests/<id>/reject/` | Reject request |
-| POST | `/requests/<id>/cancel/` | Cancel request |
-
+| POST | `/books/<id>/request/` | Send a request for a book. |
+| GET | `/requests/` | Display sent and received requests. |
+| POST | `/requests/<id>/accept/` | Accept a received request. |
+| POST | `/requests/<id>/reject/` | Reject a received request. |
+| POST | `/requests/<id>/cancel/` | Cancel a sent request. |
+| GET | `/requests/<id>/messages/` | Display messages for one request. |
+| POST | `/requests/<id>/messages/` | Send a message in a request conversation. |
+## 4.3 Security Rules
+- Only authenticated users can add books.
+- Only authenticated users can send requests.
+- Only a book owner can edit or delete their book.
+- Only a book owner can accept or reject a request.
+- Only the requester or owner can read request messages.
+- Only the requester or owner can send messages in a request conversation.
+- Anonymous users can browse public book listings if allowed by the MVP design.
 ---
-
-### Messages
-
-| Method | Route | Description |
-|---|---|---|
-| GET | `/requests/<id>/messages/` | Display request conversation |
-| POST | `/requests/<id>/messages/` | Send message in request conversation |
-
----
-
-## In Short
-
-- Authentication routes manage accounts.
-- Book routes manage book listings.
-- Request routes manage borrowing, giving, and exchanges.
-- Message routes manage communication between users.
-
----
-
-# 5) SCM and QA Strategy
-
+# 5. SCM and QA Strategy
 ## 5.1 Source Control Management
-
-The project uses **Git** and **GitHub**.
-
-Recommended branches:
-
+The project uses Git for version control and GitHub for remote hosting.
+GitHub also supports issues, pull requests, documentation, and team collaboration.
+### Repository Structure
+```text
+livract/
+├── accounts/
+├── books/
+├── exchanges/
+├── messaging/
+├── core/
+├── templates/
+├── static/
+├── media/
+├── docs/
+├── manage.py
+├── requirements.txt
+└── README.md
+```
+### Branching Strategy
 | Branch | Purpose |
 |---|---|
-| `main` | Stable version |
-| `develop` | Integration branch |
-| `feature/*` | New features |
-| `fix/*` | Bug fixes |
-| `docs/*` | Documentation changes |
-
----
-
-## Workflow
-
+| `main` | Stable version. |
+| `develop` | Integration branch. |
+| `feature/*` | New features. |
+| `fix/*` | Bug fixes. |
+| `docs/*` | Documentation updates. |
+### Development Workflow
 ```mermaid
 flowchart LR
     Task[Task] --> Branch[Create Branch]
@@ -742,132 +520,81 @@ flowchart LR
     Review --> Develop[Merge into develop]
     Develop --> Main[Merge into main]
 ```
-
----
-
-## Commit Examples
-
+### Commit Examples
 ```text
 feat: add book creation form
-feat: create request model
-fix: prevent users from requesting their own books
-docs: update database documentation
+feat: create exchange request model
+fix: prevent users from editing another user's book
+fix: block requests on unavailable books
+docs: update architecture documentation
 test: add tests for book model
+refactor: simplify request status logic
 ```
-
----
-
 ## 5.2 QA Strategy
-
-The goal of QA is to make sure the MVP is functional, stable, and secure.
-
----
-
-## Testing Types
-
-| Test Type | Purpose | Tools |
+The goal of QA is to make sure the application is functional, stable, secure, and aligned with the MVP requirements.
+### Testing Types
+| Test Type | Purpose | Tool |
 |---|---|---|
-| Unit Tests | Test models and forms | Django TestCase |
-| View Tests | Test Django views and permissions | Django Test Client |
-| Manual Tests | Test user flows in the browser | Browser |
-| Database Tests | Check relationships and constraints | Django ORM |
-| Regression Tests | Make sure existing features still work | Manual checklist |
-
----
-
-## Main Features to Test
-
-| Feature | Test Case |
+| Unit Tests | Test models and forms. | Django TestCase. |
+| View Tests | Test pages, redirects, and permissions. | Django Test Client. |
+| Manual Tests | Test the application in a browser. | Browser. |
+| Database Tests | Check relationships and constraints. | Django ORM. |
+| Regression Tests | Make sure existing features still work. | Manual checklist. |
+### Main Features to Test
+| Feature | Expected Result |
 |---|---|
-| Authentication | User can register, log in, and log out |
-| Profiles | User can update profile |
-| Books | User can add, edit, delete, and search books |
-| Permissions | User cannot edit another user’s book |
-| Requests | User can request a book |
-| Requests | User cannot request their own book |
-| Status | Owner can accept or reject a request |
-| Messages | Users can send messages inside a request |
-
----
-
-## Manual Test Checklist
-
+| Authentication | User can register, log in, and log out. |
+| Profiles | User can view and edit their profile. |
+| Books | User can add, edit, delete, and search books. |
+| Permissions | User cannot edit another user's book. |
+| Requests | User can request an available book. |
+| Requests | User cannot request their own book. |
+| Status | Owner can accept or reject a request. |
+| Messages | Users involved in a request can exchange messages. |
+| Security | Unrelated users cannot access private conversations. |
+### Manual Test Checklist
 | Flow | Expected Result |
 |---|---|
-| Register | Account is created |
-| Login | User accesses the app |
-| Add book | Book appears in the book list |
-| Edit book | Book information updates |
-| Delete book | Book disappears from user’s books |
-| Search book | Matching results are displayed |
-| Send request | Request appears as pending |
-| Accept request | Request becomes accepted |
-| Reject request | Request becomes rejected |
-| Send message | Message appears in the conversation |
-
----
-
-## 5.3 Deployment Pipeline
-
-For the MVP, the deployment process stays simple.
-
+| Register | Account is created. |
+| Login | User accesses the application. |
+| Logout | User session ends. |
+| Add book | Book appears in the list. |
+| Edit book | Book information is updated. |
+| Delete book | Book is removed from the user's list. |
+| Search book | Matching results are displayed. |
+| Send request | Request appears as pending. |
+| Accept request | Request becomes accepted. |
+| Reject request | Request becomes rejected. |
+| Send message | Message appears in the conversation. |
+| Open profile | Profile information is displayed. |
+## 5.3 Deployment Strategy
+For the MVP, deployment should remain simple.
 ```text
 Local Development → Testing → Staging → Production
 ```
-
-Possible tools:
-
+### Possible Tools
 | Need | Tool |
 |---|---|
-| Code hosting | GitHub |
-| Back-end hosting | Render, Railway, or PythonAnywhere |
-| Database | PostgreSQL |
-| Static files | WhiteNoise |
-| Media files | Local storage for MVP, Cloudinary later |
-| CI/CD | GitHub Actions |
-
+| Code hosting | GitHub. |
+| Back-end hosting | Render, Railway, or PythonAnywhere. |
+| Database | PostgreSQL. |
+| Static files | WhiteNoise. |
+| Media files | Local storage for MVP, Cloudinary later. |
+| CI/CD | GitHub Actions. |
+### Definition of Done
+- A feature works locally.
+- The code is pushed to a dedicated branch.
+- Basic tests pass.
+- A pull request is opened.
+- The code is reviewed.
+- No critical bug remains.
+- Documentation is updated if necessary.
+- The feature is merged into develop.
 ---
-
-## Deployment Steps
-
-1. Develop features locally.
-2. Push code to GitHub.
-3. Open a pull request.
-4. Run tests.
-5. Merge into `develop`.
-6. Test the app in staging.
-7. Merge into `main`.
-8. Deploy the stable version.
-
----
-
-## In Short
-
-- Use Git and GitHub.
-- Work with feature branches.
-- Use pull requests.
-- Test the most important flows first.
-- Keep deployment simple for the MVP.
-- Improve automation later with GitHub Actions.
-
----
-
 # Final Summary
-
 Livract is designed as a simple Django MVP.
-
-The architecture is:
-
-```text
-Browser → Django Web App → PostgreSQL
-```
-
-The main entities are:
-
-- User
-- Profile
-- Book
-- ExchangeRequest
-- Message
-
-This structure is realistic for a first version, easy to explain, and easier to build than a complex mobile architecture.
+The architecture is based on a browser, a Django application, and a PostgreSQL database.
+The main entities are User, Profile, Book, ExchangeRequest, and Message.
+The first version focuses on the core exchange flow instead of complex advanced features.
+This approach is realistic for a small team and suitable for a first working version.
+The project can later evolve toward a REST API, a React Native mobile app, real-time chat, and cloud media storage.
