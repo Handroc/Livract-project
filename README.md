@@ -495,7 +495,7 @@ Local Development → Testing → Staging → Production
 |---|---|
 | Code hosting | GitHub. |
 | Database | PostgreSQL. |
-| Media files | Local storage for MVP, Cloudinary later. |
+| Media files | Local storage for MVP.|
 | CI/CD | GitHub Actions. |
 ### Definition of Done
 - A feature works locally.
