@@ -70,7 +70,7 @@ The MVP does not need subscriptions, AI recommendations, delivery tracking, a na
 
 ## 0.3 Mockups
 The MVP uses a simple web interface.
-Wireframes can be created in Figma, but the following screens define the expected structure.
+Wireframes can be created in Figma, but the following defines the expected structure.
 
 | Screen | Purpose |
 |---|---|
@@ -98,7 +98,7 @@ Wireframes can be created in Figma, but the following screens define the expecte
 
 ## 1.1 Architecture Choice
 Livract uses a modular Django architecture for the MVP.
-The implementation stays simple enough for a small team, but the design supports the cahier des charges.
+The implementation stays simple enough for a small team.
 
 ```text
 Web Browser → Django Application → PostgreSQL Database
@@ -140,7 +140,6 @@ flowchart TD
 - It is understandable for a small team.
 - It can be built mainly with Python.
 - It matches the chosen Django stack.
-- It supports the cahier des charges without microservices.
 - It can evolve toward REST APIs, mobile support, PostGIS, caching, cloud storage, and background workers.
 
 ---
@@ -259,51 +258,55 @@ erDiagram
 
 # 3. High-Level Sequence Diagrams
 
-## 3.1 Add a Book with External Metadata
+## 3.1 User Registration
+```mermaid
+sequenceDiagram
+    actor User
+    participant Browser as Web Browser
+    participant Django as Django App
+    participant DB as PostgreSQL
+    User->>Browser: Opens registration page
+    Browser->>Django: GET /register/
+    Django-->>Browser: Returns registration form
+    User->>Browser: Enters account information
+    Browser->>Django: POST /register/
+    Django->>Django: Validates form
+    Django->>DB: Creates user and profile
+    DB-->>Django: Confirms creation
+    Django-->>Browser: Redirects to login or home page
+```
+## 3.2 Add a Book
 ```mermaid
 sequenceDiagram
     actor Owner
-    participant Browser
-    participant Django
-    participant ExternalAPI as Google Books / BNF
-    participant DB
-    Owner->>Browser: Searches by title or ISBN
-    Browser->>Django: GET /books/import/?query=value
-    Django->>ExternalAPI: Fetch metadata
-    ExternalAPI-->>Django: Return book data
-    Django-->>Browser: Display pre-filled form
-    Owner->>Browser: Confirm or edit data
+    participant Browser as Web Browser
+    participant Django as Django App
+    participant Storage as Media Storage
+    participant DB as PostgreSQL
+    Owner->>Browser: Fills add book form
     Browser->>Django: POST /books/add/
-    Django->>DB: Save book and metadata
-    Django-->>Browser: Redirect to My Books
+    Django->>Django: Validates form
+    Django->>Storage: Saves uploaded image
+    Django->>DB: Saves book listing
+    DB-->>Django: Confirms creation
+    Django-->>Browser: Redirects to My Books
 ```
-
-## 3.2 Send a Book Request
+## 3.3 Send a Book Request
 ```mermaid
 sequenceDiagram
     actor Requester
-    participant Browser
-    participant Django
-    participant DB
-    participant Notifications
+    participant Browser as Web Browser
+    participant Django as Django App
+    participant DB as PostgreSQL
     Requester->>Browser: Clicks Send Request
     Browser->>Django: POST /books/id/request/
-    Django->>DB: Check availability and permissions
-    Django->>DB: Create pending request
-    Django->>Notifications: Create owner notification
-    Django-->>Browser: Redirect to Requests page
-```
-
-## 3.3 Automatic Cleanup
-```mermaid
-sequenceDiagram
-    participant Task as Scheduled Task
-    participant Django
-    participant DB
-    Task->>Django: Run cleanup command
-    Django->>DB: Find past public events
-    Django->>DB: Hide expired events
-    Django->>DB: Hide unavailable books
+    Django->>DB: Checks book availability
+    DB-->>Django: Book is available
+    Django->>DB: Checks requester is not owner
+    DB-->>Django: Request is valid
+    Django->>DB: Creates request with pending status
+    DB-->>Django: Confirms creation
+    Django-->>Browser: Redirects to Requests page
 ```
 
 ---
@@ -484,7 +487,7 @@ QA verifies that the application is functional, stable, secure, and aligned with
 For the MVP, deployment should remain simple.
 
 ```text
-Local Development → Testing → Staging → Production
+Local Development → Testing → Staging
 ```
 
 ### Possible Tools
