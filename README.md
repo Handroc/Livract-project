@@ -101,8 +101,6 @@ The MVP does not need subscriptions, AI recommendations, delivery tracking, a na
 The MVP uses a simple web interface.
 Wireframes can be created in Figma, but the following defines the expected structure.
 
-**Professional mockup:** [View the mockup on Figma](https://glove-seven-74328689.figma.site/)
-
 **User mockup:** [View the mockup on Figma](https://www.figma.com/make/ffQLGzHnM3EsID4ED9aNhu/Livract-Lecteurs?p=f)
 
 | Screen | Purpose |
