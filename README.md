@@ -13,6 +13,22 @@
   <b>Python</b> • <b>Django</b> • <b>PostgreSQL</b> • <b>HTML</b> • <b>CSS</b> • <b>Git</b>
 </p>
 
+---
+
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Chosen Stack](#chosen-stack)
+- [0. User Stories and Mockups](#0-user-stories-and-mockups)
+- [1. System Architecture](#1-system-architecture)
+- [2. Components, Classes, and Database Design](#2-components-classes-and-database-design)
+- [3. High-Level Sequence Diagrams](#3-high-level-sequence-diagrams)
+- [4. Internal and External APIs](#4-internal-and-external-apis)
+- [5. SCM and QA Strategy](#5-scm-and-qa-strategy)
+- [Final Summary](#final-summary)
+
+---
+
 ## Project Overview
 Livract is a web application that helps people in a local community share, lend, give, exchange, or sell books.
 
